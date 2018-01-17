@@ -54,7 +54,7 @@ setup(
     exclude_package_data={
         '': ['__pycache__', '*.py[co]'],
     },
-    license='BSD 3-Clause',
+    license='MIT',
     description='Package for creating complex command line argument trees using argparse',
     long_description=get_readme(),
     url='https://github.com/wildfish/argparsetree',
