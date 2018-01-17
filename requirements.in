@@ -1,0 +1,10 @@
+-r ./requirements-package.in
+
+pip-tools
+flake8
+pytest
+mock
+tox
+hypothesis
+coverage
+pytest-cov
