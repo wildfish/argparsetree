@@ -124,4 +124,4 @@ class BaseCommand(object):
             cmd_cls = sub_commands[sub_command_name]
             return cmd_cls(sub_command_name).run(args)
 
-        return self.action(args)
+        return self.action(args) or 0
