@@ -13,5 +13,5 @@ if [ -n "${TRAVIS_TAG}" ]; then
     fi
 fi
 
-tox -e flake -e ${TOX_ENV}
+tox -e flake8 -e ${TOX_ENV}
 codecov --flags "${TOX_ENV}"
