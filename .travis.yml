@@ -8,6 +8,6 @@ install:
 - pip install pip -U
 - pip install codecov tox
 script:
-- tox -e $(echo py$TRAVIS_PYTHON_VERSION | tr -d .)
+- tox -e flake8 -e $(echo py$TRAVIS_PYTHON_VERSION | tr -d .)
 after_success:
 - codecov -cF py$TRAVIS_PYTHON_VERSION
