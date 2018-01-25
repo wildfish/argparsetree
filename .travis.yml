@@ -7,6 +7,7 @@ env:
 - TOX_ENV=py35 RUN_CODECOV=true
 - TOX_ENV=py27 RUN_CODECOV=true
 install:
+- pyenv install 3.6 3.5
 - pip install pip -U
 - pip install codecov tox
 script:
