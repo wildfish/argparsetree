@@ -12,7 +12,7 @@ else
 fi
 
 # upload to code cov if specified
-if [ ${RUN_CODECOV} == true ]; then
+if [ ${RUN_CODECOV:-false} == true ]; then
     codecov --flags "${TOX_ENV}"
 else
     echo "Skipping codecov for env=${TOX_ENV} run_codecov=${RUN_CODECOV}"

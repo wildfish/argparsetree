@@ -2,11 +2,11 @@ language: python
 sudo: false
 python: 3.6
 env:
-- TOX_ENV=ALL RUN_CODCOV=false
-- TOX_ENV=flake8 RUN_CODCOV=false
-- TOX_ENV=py3.6 RUN_CODCOV=true
-- TOX_ENV=py3.5 RUN_CODCOV=true
-- TOX_ENV=py2.7 RUN_CODCOV=true
+- TOX_ENV=ALL RUN_CODECOV=false
+- TOX_ENV=flake8 RUN_CODECOV=false
+- TOX_ENV=py36 RUN_CODECOV=true
+- TOX_ENV=py35 RUN_CODECOV=true
+- TOX_ENV=py27 RUN_CODECOV=true
 install:
 - pip install pip -U
 - pip install codecov tox
