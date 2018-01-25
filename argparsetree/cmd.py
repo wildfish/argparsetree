@@ -11,7 +11,6 @@ class BaseCommand(object):
 
     :var description: The brief description of the command
     :var sub_commands: A dictionary mapping names to sub commands. Each value should be a class inheriting from ``BaseCommand``.
-    :var sub_command_required: Flag whether a sub command is required on the command line if ``sub_commands`` are specified.
     """
     description = None
     sub_commands = {}
