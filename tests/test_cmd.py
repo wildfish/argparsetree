@@ -154,3 +154,13 @@ class BaseRun(TestCase):
         self.assertEqual(res, action_res)
         action_mock.assert_called_once_with(command.parse_args())
         other_action_mock.assert_not_called()
+
+    def test_action_returns_none___run_returns_zero(self):
+        class Cmd(BaseCommand):
+            def action(self, args):
+                return None
+
+        command = Cmd(argv=[])
+        res = command.run()
+
+        self.assertEqual(res, 0)

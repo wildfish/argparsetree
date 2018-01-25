@@ -24,7 +24,7 @@ class BaseCommand(object):
         """
         self.name = name
         self._arg_parser = None
-        self.argv = argv or sys.argv[1:]
+        self.argv = argv if argv is not None else sys.argv[1:]
 
     @property
     def sub_parser_dest_name(self):
