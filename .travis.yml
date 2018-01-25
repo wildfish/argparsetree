@@ -1,11 +1,9 @@
 language: python
 sudo: false
-env:
-- TOX_ENV=ALL RUN_CODECOV=false
-- TOX_ENV=flake8 RUN_CODECOV=false
-- TOX_ENV=py36 RUN_CODECOV=true
-- TOX_ENV=py35 RUN_CODECOV=true
-- TOX_ENV=py27 RUN_CODECOV=true
+pytohn:
+- 3.6
+- 3.5
+- 2.7
 install:
 - pyenv install -s 3.6
 - pyenv install -s 3.5.4
@@ -20,5 +18,5 @@ deploy:
     secure: YzOS+k+gzt5Ha594Ec/GzD8Ls9JQpcaVA89yrPITwKm4POUtwFjre3t+xLnAYYmr8xafJ94IdfECMFEj2AJ0S0OmiriANMgD+/gj7033EX5i52P8tm7xtacQJSIzFg/0ayiiO4Vgt7g08woLFgo2/bOnSkWnSo97gpSlwGIDMrwbFhpP3LG74KvVwsedi9E5gwB7keunkaCTnrq8XQo8gYLJhupGvJcNRr/XQeP3Fg6jfeFLAHUM5Y8f3M0YzMIIQhyHSFq4EF4hu2HRY1VUgkHs108fHEWFLBSqT3Si1zX4acUiQ3PybeNzYgkn/ss/FttnXHPVeSGxKpsUgBycJmva2MqNqvcxRNZlLZbh3q4eoan5gi2RAr15v5kq5xAlULXT37TRJGvaDhO2thtTieHxyFlrV5lRbk+2BYoshm/0JjGC/wlbIZfFDvIfdkQs9zSk0vEoM1TEjzwKN2JeSqZzhzpJo9CF2Bc8H/mwQ2aFZc1qcLepClNtK50Lxz7rxKVVCiEPzYMLYR2PV1ehAesAE1ieT5iBOGOmpzO0T4erCCYSIkw9rbXtQXXFX8NzFKEagdQ1Akg7ozbMv5fSuhOlrvzBbO8+S3dX7eaR2xYpov2lAnwrAgwRlTtxa/3utYugMA0IRvcQuHUWVvnbEMUSK46FZCRMes9JhOb4ojI=
   on:
     tags: true
-    condition: $TOX_ENV == ALL
+    condition: $TRAVIS_PYTHON_VERSION == 3.6
   distributions: "sdist bdist_wheel"

@@ -2,18 +2,16 @@
 
 set -e
 
-TOX_ENV="${TOX_ENV:-ALL}"
+TOX_ENV=$(echo py$TRAVIS_PYTHON_VERSION | tr -d .)
 
-# if we dont have a tag specified ignore "ALL"
-if [ "${TOX_ENV}" != "ALL" ] || [ "${TRAVIS_TAG:-""}" != "" ]; then
-    tox -e ${TOX_ENV}
-else
-    echo "Skipping tests for env=${TOX_ENV} tag=${TRAVIS_TAG}"
+if [ -n "${TRAVIS_TAG}" ]; then
+    PACKAGE_VERSION=`grep -oP '[0-9]+\.[0-9]+\.[0-9]+' argparsetree/__init__.py`
+
+    if [ "${TRAVIS_TAG}" != "${PACKAGE_VERSION}" ]; then
+        echo "Tag version (${TRAVIS_TAG}) is not equal to the package tag (${PACKAGE_VERSION})"
+        exit 1
+    fi
 fi
 
-# upload to code cov if specified
-if [ ${RUN_CODECOV:-false} == true ]; then
-    codecov --flags "${TOX_ENV}"
-else
-    echo "Skipping codecov for env=${TOX_ENV} run_codecov=${RUN_CODECOV}"
-fi
+tox -e flake -e ${TOX_ENV}
+codecov --flags "${TOX_ENV}"
