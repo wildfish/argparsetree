@@ -164,3 +164,65 @@ class BaseRun(TestCase):
         res = command.run()
 
         self.assertEqual(res, 0)
+
+
+class BaseGetDescription(TestCase):
+    def test_command_has_description_and_no_doc_string___description_is_description(self):
+        class Cmd(BaseCommand):
+            description = 'The commands description.'
+
+        cmd = Cmd()
+
+        self.assertEqual('The commands description.', cmd.get_description())
+
+    def test_command_has_description_and_doc_string___description_is_description(self):
+        class Cmd(BaseCommand):
+            """
+            The doc string description. And extra help.
+            """
+            description = 'The commands description.'
+
+        cmd = Cmd()
+
+        self.assertEqual('The commands description.', cmd.get_description())
+
+    def test_command_has_doc_string_but_no_description___first_doc_string_sentence_is_description(self):
+        class Cmd(BaseCommand):
+            """
+            The doc string description. And extra help.
+            """
+
+        cmd = Cmd()
+
+        self.assertEqual('The doc string description.', cmd.get_description())
+
+
+class BaseGetHelp(TestCase):
+    def test_command_has_help_and_no_doc_string___description_is_description(self):
+        class Cmd(BaseCommand):
+            help = 'The commands help text.'
+
+        cmd = Cmd()
+
+        self.assertEqual('The commands help text.', cmd.get_help())
+
+    def test_command_has_description_and_doc_string___description_is_description(self):
+        class Cmd(BaseCommand):
+            """
+            The doc string description. And extra help.
+            """
+            help = 'The commands help text.'
+
+        cmd = Cmd()
+
+        self.assertEqual('The commands help text.', cmd.get_help())
+
+    def test_command_has_doc_string_but_no_description___first_doc_string_sentence_is_description(self):
+        class Cmd(BaseCommand):
+            """
+            The doc string description. And extra help.
+            """
+
+        cmd = Cmd()
+
+        self.assertEqual('The doc string description. And extra help.', cmd.get_help())

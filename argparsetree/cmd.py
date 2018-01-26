@@ -10,9 +10,12 @@ class BaseCommand(object):
     The base command object
 
     :var description: The brief description of the command
-    :var sub_commands: A dictionary mapping names to sub commands. Each value should be a class inheriting from ``BaseCommand``.
+    :var sub_commands: A dictionary mapping names to sub commands. Each value should be a class
+        inheriting from ``BaseCommand``. If not set the first sentence of the docstring is used.
+    :var help: The full help text to display. If not set the docstring is used.
     """
     description = None
+    help = None
     sub_commands = {}
 
     def __init__(self, name=None, argv=None):
@@ -74,7 +77,7 @@ class BaseCommand(object):
             for name, cls in sub_commands.items():
                 cmd = cls(name)
 
-                sub_parser = sub_parsers.add_parser(name, help=cmd.get_description(), description=cmd.get_description())
+                sub_parser = sub_parsers.add_parser(name, help=cmd.get_description(), description=cmd.get_help())
 
                 cmd.add_args(sub_parser)
                 cmd.register_sub_commands(sub_parser)
@@ -89,9 +92,25 @@ class BaseCommand(object):
 
     def get_description(self):
         """
-        Gets the description of the command
+        Gets the description of the command. If its not supplied the first sentence of the doc string is used.
         """
-        return self.description
+        if self.description:
+            return self.description
+        elif self.__doc__ and self.__doc__.strip():
+            return self.__doc__.strip().split('.')[0] + '.'
+        else:
+            return ''
+
+    def get_help(self):
+        """
+        Gets the help text for the command. If its not supplied the doc string is used.
+        """
+        if self.help:
+            return self.help
+        elif self.__doc__ and self.__doc__.strip():
+            return self.__doc__.strip()
+        else:
+            return ''
 
     def action(self, args):
         """
