@@ -1,4 +1,5 @@
 import string
+from argparse import ArgumentParser
 
 from unittest import TestCase
 
@@ -195,6 +196,27 @@ class BaseGetDescription(TestCase):
         cmd = Cmd()
 
         self.assertEqual('The doc string description.', cmd.get_description())
+
+
+class BaseGetRootParser(TestCase):
+    def test_no_argument_parser_class_is_set___instance_of_argparse_is_returned(self):
+        class Cmd(BaseCommand):
+            pass
+
+        cmd = Cmd()
+
+        self.assertIsInstance(cmd.get_root_argparser(), ArgumentParser)
+
+    def test_argument_parser_class_is_set___instance_of_defined_class_is_set(self):
+        class CustomParser(ArgumentParser):
+            pass
+
+        class Cmd(BaseCommand):
+            arg_parse_class = CustomParser
+
+        cmd = Cmd()
+
+        self.assertIsInstance(cmd.get_root_argparser(), CustomParser)
 
 
 class BaseGetHelp(TestCase):

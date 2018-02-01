@@ -13,10 +13,12 @@ class BaseCommand(object):
     :var sub_commands: A dictionary mapping names to sub commands. Each value should be a class
         inheriting from ``BaseCommand``. If not set the first sentence of the docstring is used.
     :var help: The full help text to display. If not set the docstring is used.
+    :var arg_parse_class: The class to use as the root argument parser (should extend or implement ``argparse.ArgumanetParser``)
     """
     description = None
     help = None
     sub_commands = {}
+    arg_parse_class = ArgumentParser
 
     def __init__(self, name=None, argv=None):
         """
@@ -40,7 +42,7 @@ class BaseCommand(object):
     @property
     def arg_parser(self):
         if not self._arg_parser:
-            self._arg_parser = ArgumentParser(self.get_description())
+            self._arg_parser = self.get_root_argparser()
             self.add_args(self._arg_parser)
             self.register_sub_commands(self._arg_parser)
 
@@ -81,6 +83,12 @@ class BaseCommand(object):
 
                 cmd.add_args(sub_parser)
                 cmd.register_sub_commands(sub_parser)
+
+    def get_root_argparser(self):
+        """
+        Gets the root argument parser object.
+        """
+        return self.arg_parse_class(self.get_description())
 
     def get_sub_commands(self):
         """
