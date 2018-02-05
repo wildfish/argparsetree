@@ -79,7 +79,7 @@ class BaseCommand(object):
             for name, cls in sub_commands.items():
                 cmd = cls(name)
 
-                sub_parser = sub_parsers.add_parser(name, help=cmd.get_description(), description=cmd.get_help())
+                sub_parser = sub_parsers.add_parser(name, help=name, description=cmd.get_help())
 
                 cmd.add_args(sub_parser)
                 cmd.register_sub_commands(sub_parser)
@@ -88,7 +88,7 @@ class BaseCommand(object):
         """
         Gets the root argument parser object.
         """
-        return self.arg_parse_class(self.get_description())
+        return self.arg_parse_class(description=self.get_help())
 
     def get_sub_commands(self):
         """
