@@ -1,5 +1,5 @@
 import string
-from argparse import ArgumentParser
+from argparse import ArgumentParser, HelpFormatter, RawDescriptionHelpFormatter
 
 from unittest import TestCase
 
@@ -197,6 +197,14 @@ class BaseGetDescription(TestCase):
 
         self.assertEqual('The doc string description.', cmd.get_description())
 
+    def test_command_has_no_doc_string_or_description___result_is_empty_string(self):
+        class Cmd(BaseCommand):
+            pass
+
+        cmd = Cmd()
+
+        self.assertEqual('', cmd.get_description())
+
 
 class BaseGetRootParser(TestCase):
     def test_no_argument_parser_class_is_set___instance_of_argparse_is_returned(self):
@@ -217,6 +225,22 @@ class BaseGetRootParser(TestCase):
         cmd = Cmd()
 
         self.assertIsInstance(cmd.get_root_argparser(), CustomParser)
+
+    def test_formatter_class_is_not_set___formatter_class_is_default_help_formatter(self):
+        class Cmd(BaseCommand):
+            pass
+
+        cmd = Cmd()
+
+        self.assertEqual(cmd.get_root_argparser().formatter_class, HelpFormatter)
+
+    def test_formatter_class_is_set___formatter_class_is_specified_formatter(self):
+        class Cmd(BaseCommand):
+            formatter_class = RawDescriptionHelpFormatter
+
+        cmd = Cmd()
+
+        self.assertEqual(cmd.get_root_argparser().formatter_class, RawDescriptionHelpFormatter)
 
 
 class BaseGetHelp(TestCase):
@@ -248,3 +272,11 @@ class BaseGetHelp(TestCase):
         cmd = Cmd()
 
         self.assertEqual('The doc string description. And extra help.', cmd.get_help())
+
+    def test_command_no_doc_string_or_description___result_is_empty_string(self):
+        class Cmd(BaseCommand):
+            pass
+
+        cmd = Cmd()
+
+        self.assertEqual('', cmd.get_help())

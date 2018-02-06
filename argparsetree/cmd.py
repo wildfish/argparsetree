@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, HelpFormatter
 
 import sys
 
@@ -14,11 +14,13 @@ class BaseCommand(object):
         inheriting from ``BaseCommand``. If not set the first sentence of the docstring is used.
     :var help: The full help text to display. If not set the docstring is used.
     :var arg_parse_class: The class to use as the root argument parser (should extend or implement ``argparse.ArgumanetParser``)
+    :var formatter_class: The class to use for formatting help text
     """
     description = None
     help = None
     sub_commands = {}
     arg_parse_class = ArgumentParser
+    formatter_class = HelpFormatter
 
     def __init__(self, name=None, argv=None):
         """
@@ -79,7 +81,7 @@ class BaseCommand(object):
             for name, cls in sub_commands.items():
                 cmd = cls(name)
 
-                sub_parser = sub_parsers.add_parser(name, help=name, description=cmd.get_help())
+                sub_parser = sub_parsers.add_parser(name, help=name, description=cmd.get_help(), formatter_class=cmd.get_formatter_class())
 
                 cmd.add_args(sub_parser)
                 cmd.register_sub_commands(sub_parser)
@@ -88,7 +90,7 @@ class BaseCommand(object):
         """
         Gets the root argument parser object.
         """
-        return self.arg_parse_class(description=self.get_help())
+        return self.arg_parse_class(description=self.get_help(), formatter_class=self.get_formatter_class())
 
     def get_sub_commands(self):
         """
@@ -119,6 +121,12 @@ class BaseCommand(object):
             return self.__doc__.strip()
         else:
             return ''
+
+    def get_formatter_class(self):
+        """
+        Gets the formatter class for formatting help text
+        """
+        return self.formatter_class
 
     def action(self, args):
         """
