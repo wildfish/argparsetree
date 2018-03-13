@@ -43,7 +43,7 @@ if sys.argv[-1] == 'publish':
 setup(
     name='argparsetree',
     version=version,
-    packages=find_packages(),
+    packages=find_packages(exclude=('tests', 'tests.*')),
     include_package_data=True,
     package_data={
         '': [
